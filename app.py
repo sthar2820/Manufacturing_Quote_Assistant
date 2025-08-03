@@ -5,14 +5,6 @@ A comprehensive AI-powered tool for analyzing manufacturing quotes and documents
 
 import os
 import streamlit as st
-import google.generativeai as genai
-from datetime import datetime
-from typing import Dict, Any, List, Optional
-import pandas as pd
-from pathlib import Path
-import json
-import tempfile
-import zipfile
 
 # Load environment variables for local development
 try:
@@ -21,10 +13,40 @@ try:
 except ImportError:
     pass  # dotenv not available, skip loading .env file
 
+# Core imports
+try:
+    import google.generativeai as genai
+except ImportError as e:
+    st.error(f"Failed to import Google Generative AI: {e}")
+    st.error("Please ensure google-generativeai is installed: pip install google-generativeai")
+    st.stop()
+
+from datetime import datetime
+from typing import Dict, Any, List, Optional
+import pandas as pd
+from pathlib import Path
+import json
+import tempfile
+import zipfile
+
 # Document processing imports
-import fitz  # PyMuPDF
-from docx import Document
-import openpyxl
+try:
+    import fitz  # PyMuPDF
+except ImportError:
+    st.error("PyMuPDF not found. Please install: pip install PyMuPDF")
+    st.stop()
+
+try:
+    from docx import Document
+except ImportError:
+    st.error("python-docx not found. Please install: pip install python-docx")
+    st.stop()
+
+try:
+    import openpyxl
+except ImportError:
+    st.error("openpyxl not found. Please install: pip install openpyxl")
+    st.stop()
 
 # Document generation
 from docx import Document as DocxDocument
