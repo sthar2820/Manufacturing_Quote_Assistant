@@ -5,6 +5,11 @@ A comprehensive AI-powered tool for analyzing manufacturing quotes and documents
 
 import os
 import streamlit as st
+import sys
+
+# Debug information for Streamlit Cloud
+st.sidebar.write(f"Python version: {sys.version}")
+st.sidebar.write(f"Python path: {sys.executable}")
 
 # Load environment variables for local development
 try:
@@ -16,9 +21,23 @@ except ImportError:
 # Core imports
 try:
     import google.generativeai as genai
+    st.sidebar.success("✅ Google Generative AI imported successfully")
 except ImportError as e:
     st.error(f"Failed to import Google Generative AI: {e}")
     st.error("Please ensure google-generativeai is installed: pip install google-generativeai")
+    st.sidebar.error(f"❌ Import failed: {e}")
+    
+    # Additional debugging info
+    try:
+        import pkg_resources
+        installed_packages = [d.project_name for d in pkg_resources.working_set]
+        if 'google-generativeai' in installed_packages:
+            st.error("google-generativeai is installed but import failed")
+        else:
+            st.error("google-generativeai is not in installed packages")
+        st.write("Installed packages:", installed_packages)
+    except:
+        pass
     st.stop()
 
 from datetime import datetime
