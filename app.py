@@ -81,8 +81,11 @@ try:
     from langchain.llms.base import LLM
     from langchain.schema import BaseMessage
     RAG_AVAILABLE = True
-except ImportError:
+    st.sidebar.success("✅ RAG components loaded")
+except ImportError as e:
     RAG_AVAILABLE = False
+    st.sidebar.warning(f"⚠️ RAG not available: {e}")
+    st.sidebar.info("Basic functionality will work without RAG")
 
 # Configure Streamlit page
 st.set_page_config(
